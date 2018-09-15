@@ -23,7 +23,8 @@ const config = getConfig();
 		});
 
 		// retrieve Apollo Engine api key
-		const engineApiKey = process.env.ENGINE_API_KEY || config.engineApiKey;
+		const engineApiKey =
+			process.env.AQUEDUCT_ENGINE_KEY || config.engineApiKey;
 
 		// create and launch server
 		const server = new ApolloServer({
@@ -37,7 +38,7 @@ const config = getConfig();
 		});
 
 		const serverPort =
-			parseInt(process.env.SERVER_PORT!) || config.port || 4000;
+			parseInt(process.env.AQUEDUCT_PORT!) || config.port || 4000;
 
 		const info = await server.listen(serverPort);
 

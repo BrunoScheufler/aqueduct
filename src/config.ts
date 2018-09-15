@@ -4,7 +4,7 @@ import path from 'path';
 
 export const getConfig = () => {
 	const configPath = path.resolve(
-		process.env.CONFIG_PATH || '/config/aqueduct.yaml'
+		process.env.AQUEDUCT_CONFIG_PATH || '/config/aqueduct.yaml'
 	);
 
 	if (!pathExistsSync(configPath)) {
