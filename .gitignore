@@ -1,0 +1,8 @@
+# build output directory
+build/
+
+# Node.js dependencies
+node_modules/
+
+# Test directory
+.test/

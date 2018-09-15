@@ -1,0 +1,36 @@
+{
+	"name": "aqueduct",
+	"version": "1.0.0",
+	"description": "A cloud-native GraphQL-powered gateway service",
+	"main": "build/index.js",
+	"repository": "https://github.com/BrunoScheufler/aqueduct",
+	"author": "Bruno Scheufler <signing@brunoscheufler.com>",
+	"license": "MIT",
+	"private": true,
+	"dependencies": {
+		"@types/graphql": "^14.0.0",
+		"@types/node-fetch": "^2.1.2",
+		"apollo-link-http": "^1.5.5",
+		"apollo-server": "^2.0.8",
+		"fs-extra": "^7.0.0",
+		"graphql": "^14.0.2",
+		"graphql-tools": "^3.1.1",
+		"isomorphic-unfetch": "^2.1.1",
+		"js-yaml": "^3.12.0"
+	},
+	"devDependencies": {
+		"@types/fs-extra": "^5.0.4",
+		"@types/js-yaml": "^3.11.2",
+		"@types/node": "^10.9.4",
+		"ts-node-dev": "^1.0.0-pre.30",
+		"tslint": "^5.11.0",
+		"typescript": "^3.0.3"
+	},
+	"scripts": {
+		"build": "tsc --project .",
+		"test": "yarn run build && yarn run lint",
+		"lint": "tslint --project .",
+		"start": "node ./build/index.js",
+		"dev": "ts-node-dev ./src/index.ts"
+	}
+}
