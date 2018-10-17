@@ -32,4 +32,10 @@ engineApiKey: <Apollo Engine API Key>
 
 # Aqueduct port (defaults to 4000, can be overriden with AQUEDUCT_PORT)
 port: 4000
+
+# Start Aqueduct after n milliseconds (disabled by default, can be overriden with AQUEDUCT_LAUNCH_DELAY)
+launchDelay: 10000
+
+# Enable GraphQL Playground (disabled by default, can be overriden with AQUEDUCT_ENABLE_PLAYGROUND)
+enablePlayground: true
 ```

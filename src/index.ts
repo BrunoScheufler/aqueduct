@@ -15,7 +15,7 @@ const config = getConfig();
 
 (async () => {
 	const launchDelay =
-		parseInt(process.env.LAUNCH_DELAY!) || config.launchDelay;
+		parseInt(process.env.AQUEDUCT_LAUNCH_DELAY!) || config.launchDelay;
 	if (!isNaN(launchDelay)) {
 		await wait(launchDelay);
 	}
@@ -33,13 +33,19 @@ const config = getConfig();
 		const engineApiKey =
 			process.env.AQUEDUCT_ENGINE_KEY || config.engineApiKey;
 
+		// toggle graphql-playground
+		const enablePlayground =
+			isDev ||
+			process.env.AQUEDUCT_ENABLE_PLAYGROUND === 'true' ||
+			config.enablePlayground;
+
 		// create and launch server
 		const server = new ApolloServer({
 			schema,
 			cacheControl: true,
 			context: ({ req, res }: IContext) => ({ req, res }),
 			debug: isDev,
-			playground: isDev,
+			playground: enablePlayground,
 			tracing: true,
 			engine: engineApiKey ? { apiKey: engineApiKey } : false
 		});
