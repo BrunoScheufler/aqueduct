@@ -5,7 +5,8 @@ import {
 	IContext,
 	isDev,
 	handleError,
-	registerErrorHandlers
+	registerErrorHandlers,
+	wait
 } from './util';
 import { getConfig } from './config';
 
@@ -13,6 +14,12 @@ registerErrorHandlers();
 const config = getConfig();
 
 (async () => {
+	const launchDelay =
+		parseInt(process.env.LAUNCH_DELAY!) || config.launchDelay;
+	if (!isNaN(launchDelay)) {
+		await wait(launchDelay);
+	}
+
 	try {
 		// retrieve endpoints from config and stitch together remote schemas
 		const endpoints = [...config.endpoints];

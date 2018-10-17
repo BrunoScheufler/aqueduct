@@ -1,6 +1,6 @@
 {
 	"name": "aqueduct",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "A cloud-native GraphQL-powered gateway service",
 	"main": "build/index.js",
 	"repository": "https://github.com/BrunoScheufler/aqueduct",

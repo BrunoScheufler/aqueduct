@@ -29,3 +29,8 @@ export const registerErrorHandlers = () => {
 	);
 	process.on('SIGINT', () => handleError(new Error('Detected SIGINT, bye!')));
 };
+
+export const wait = (ms: number) =>
+	new Promise(resolve => {
+		setTimeout(resolve, ms);
+	});
