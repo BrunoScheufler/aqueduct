@@ -8,6 +8,8 @@ aqueduct is a scalable service for bundling, monitoring and securing GraphQL ser
 
 ## getting started
 
+**Warning**: As this is a Node.js-based application, consider setting `NODE_ENV` to `production` to be sure all security & performance-relevant options are enabled!
+
 Generally speaking, you are able to deploy aqueduct in almost every setup you can imagine, whether it's through Docker Compose, Kubernetes or just bare-metal. In any scenario, you'd start by pulling the official Docker image from Docker Hub (`docker pull brunoscheufler/aqueduct:latest`).
 
 Whichever way you deploy aqueduct, the configuration is pretty straightforward and can be set using a simple config file mount to the container's config path (defaults to `/config/aqueduct.yaml`, can be changed using the `AQUEDUCT_CONFIG_PATH` environment variable).
@@ -20,7 +22,7 @@ endpoints:
     - https://api.graphcms.com/simple/v1/swapi
 ```
 
-Full config reference:
+Full config reference (with example values):
 
 ```yaml
 # Has to be a list of absolute URLs, including a protocol (http, etc.) (somehow required)
@@ -36,6 +38,20 @@ port: 4000
 # Start Aqueduct after n milliseconds (disabled by default, can be overriden with AQUEDUCT_LAUNCH_DELAY)
 launchDelay: 10000
 
-# Enable GraphQL Playground (disabled by default, can be overriden with AQUEDUCT_ENABLE_PLAYGROUND)
+# Enable GraphQL Playground on graphql endpoint (also available at /graphql, can be overriden with AQUEDUCT_ENABLE_PLAYGROUND)
 enablePlayground: true
+
+# Alternative route to graphql endpoint (defaults to /, can be overriden with AQUEDUCT_PATH)
+path: /rainbow
+
+# CORS options (all CORS requests will be accepted by default, see https://github.com/expressjs/cors#configuration-options)
+cors:
+    origin: 'https://example.com'
+
+# Use JWT validation (secret can by overriden with AQUEDUCT_JWT_SECRET)
+jwtSecret: <JSON Web Token secret>
+
+# Example helmet configuration (see https://github.com/helmetjs/helmet for more details)
+helmet:
+    frameguard: false
 ```
