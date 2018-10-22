@@ -3,6 +3,7 @@ import { mergeSchemas } from 'graphql-tools';
 import express from 'express';
 import jwt from 'express-jwt';
 import helmet from 'helmet';
+import cors from 'cors';
 
 import {
 	createRemoteSchema,
@@ -20,14 +21,28 @@ const config = getConfig();
 (async () => {
 	const app = express();
 
+	// Configure helmet
 	const helmetOptions = config.helmet;
 	app.use(helmet(helmetOptions));
 
+	// Add JWT validation
 	const jwtSecret = process.env.AQUEDUCT_JWT_SECRET || config.jwtSecret;
 	if (jwtSecret) {
 		app.use(jwt({ secret: jwtSecret }));
 	}
 
+	// Allow preflight requests unless explicitly disabled
+	const disablePreflight =
+		config.disablePreflightRequests === true ||
+		process.env.AQUEDUCT_DISABLE_CORS_PREFLIGHT === 'true';
+
+	// Handle preflight requests
+	if (!disablePreflight) {
+		const preflightSettings = config.preflightSettings || { origin: '*' };
+		app.options('*', cors(preflightSettings));
+	}
+
+	// Handle launch delay
 	const launchDelay =
 		parseInt(process.env.AQUEDUCT_LAUNCH_DELAY!) || config.launchDelay;
 	if (!isNaN(launchDelay)) {
@@ -64,9 +79,11 @@ const config = getConfig();
 			engine: engineApiKey ? { apiKey: engineApiKey } : false
 		});
 
-		const cors = config.cors === true ? false : config.cors;
-		const path = process.env.AQUEDUCT_PATH || config.path;
-		server.applyMiddleware({ app, cors, path });
+		// Configure and set defaults for cors middleware and graphql endpoint
+		const corsOptions = config.cors || { origin: '*' };
+		const path = process.env.AQUEDUCT_PATH || config.path || '/';
+
+		server.applyMiddleware({ app, cors: corsOptions, path });
 
 		const serverPort =
 			parseInt(process.env.AQUEDUCT_PORT!) || config.port || 4000;

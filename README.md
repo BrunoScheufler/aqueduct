@@ -48,6 +48,13 @@ path: /rainbow
 cors:
     origin: 'https://example.com'
 
+# Preflight-specific settings (allow all requests by default, see https://github.com/expressjs/cors#configuration-options)
+preflightSettings:
+    origin: 'https://webapp.example.com'
+
+# Disable CORS preflight requests (allowed by default, override with AQUEDUCT_DISABLE_CORS_PREFLIGHT)
+disablePreflightRequests: true
+
 # Use JWT validation (secret can by overriden with AQUEDUCT_JWT_SECRET)
 jwtSecret: <JSON Web Token secret>
 
