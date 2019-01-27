@@ -43,7 +43,8 @@
     "start": "node ./build/index.js",
     "dev": "ts-node-dev ./src/index.ts",
     "docker:build": "docker build -t brunoscheufler/aqueduct:1.2.0 .",
-    "docker:publish": "docker push brunoscheufler/aqueduct:1.2.0",
-    "docker": "yarn docker:build && yarn docker:publish"
+    "docker:tag": "docker tag brunoscheufler/aqueduct:1.2.0 brunoscheufler/aqueduct:latest",
+    "docker:publish": "docker push brunoscheufler/aqueduct:1.2.0 && docker push brunoscheufler/aqueduct:latest",
+    "docker": "yarn docker:build && yarn docker:tag && yarn docker:publish"
   }
 }
