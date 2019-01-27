@@ -7,13 +7,13 @@ import cors from 'cors';
 
 import {
   createRemoteSchema,
-  IContext,
   isDev,
   handleError,
   registerErrorHandlers,
   wait
 } from './util';
 import { getConfig } from './config';
+import { IContext } from './types';
 
 registerErrorHandlers();
 const config = getConfig();
@@ -55,9 +55,20 @@ const config = getConfig();
 
   try {
     // retrieve endpoints from config and stitch together remote schemas
-    const endpoints = [...config.endpoints];
+    const endpoints = { ...config.endpoints };
     const schema = mergeSchemas({
-      schemas: await Promise.all(endpoints.map(e => createRemoteSchema(e)))
+      schemas: await Promise.all(
+        Object.keys(endpoints).map(e => {
+          const options = {
+            ...endpoints[e],
+            retryOnError:
+              endpoints[e].retrySchemaStitchOnError ||
+              config.retrySchemaStitchOnError,
+            retryTimeout: endpoints[e].retryTimeout || config.retryTimeout
+          };
+          return createRemoteSchema(options);
+        })
+      )
     });
 
     // retrieve Apollo Engine api key
@@ -65,7 +76,6 @@ const config = getConfig();
 
     // toggle graphql-playground
     const enablePlayground =
-      isDev ||
       process.env.AQUEDUCT_ENABLE_PLAYGROUND === 'true' ||
       config.enablePlayground;
 

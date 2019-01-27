@@ -15,14 +15,12 @@ FROM node:11-alpine
 
 WORKDIR /app
 
-# copy package/dependency-related files
+# copy package/dependency-related files and install production deps
 COPY --from=build /app/package.json /app/yarn.lock /app/
+RUN yarn install --production
 
 # copy built aqueduct
 COPY --from=build /app/build /app/build
-
-# install production deps
-RUN yarn install --production
 
 # run
 EXPOSE 4000

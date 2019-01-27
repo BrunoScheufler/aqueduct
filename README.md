@@ -19,49 +19,46 @@ Example config:
 ```yaml
 # Put your endpoints to be schema-stitched below
 endpoints:
-  - https://api.graphcms.com/simple/v1/swapi
+  - cms:
+    endpoint: https://api.graphcms.com/simple/v1/swapi
+    passHeaders:
+      - authorization
 ```
 
-Full config reference (with example values):
+### aqueduct configuration
 
-```yaml
-# Has to be a list of absolute URLs, including a protocol (http, etc.) (somehow required)
-endpoints:
-  - http://sample-service
+All options below are used to configure aqueduct on a service level. If you want more fine-grained options for each endpoint, scroll down to the endpoint configuration. Available aqueduct options are
 
-# API Key for Apollo Engine metrics (optional, can be overriden with AQUEDUCT_ENGINE_KEY)
-engineApiKey: <Apollo Engine API Key>
+| name                     | type        | required | default           | description                                                                                                           | env variable                      |
+| ------------------------ | ----------- | -------- | ----------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| endpoints                | EndpointMap | true     | n/a               | An object of endpoints to stitch                                                                                      | n/a                               |
+| path                     | string      | false    | `/`               | aqueduct GraphQL endpoint path                                                                                        | `AQUEDUCT_PATH`                   |
+| port                     | number      | false    | `4000`            | aqueduct port                                                                                                         | `AQUEDUCT_PORT`                   |
+| launchDelay              | number      | false    | n/a               | if set, aqueduct will wait the specified amount of ms                                                                 | `AQUEDUCT_LAUNCH_DELAY`           |
+| jwtSecret                | string      | false    | n/a               | if set, aqueduct will verify Authorization headers for a valid JWT (warning: this can interfere with endpoints)       | `AQUEDUCT_JWT_SECRET`             |
+| enablePlayground         | boolean     | false    | n/a               | if set, the default graphql-playground site will be available on the aqueduct endpoint, regardless of the environment | `AQUEDUCT_ENABLE_PLAYGROUND`      |
+| helmet                   | object      | false    | n/a               | if set, the object will be used to configure the Helmet middleware                                                    | n/a                               |
+| disablePreflightRequests | boolean     | false    | n/a               | if set, CORS preflight requests will be blocked                                                                       | `AQUEDUCT_DISABLE_CORS_PREFLIGHT` |
+| preflightSettings        | object      | false    | `{ origin: '*' }` | if set, these options will be used to configure the CORS middleware for preflight requests                            | n/a                               |
+| engineApiKey             | string      | false    | n/a               | if set, this key will be used to report metrics to Apollo Engine                                                      | `AQUEDUCT_ENGINE_KEY`             |
+| cors                     | object      | false    | `{ origin: '*' }` | if set, these options will be used to configure the CORS middleware                                                   | n/a                               |
+| retrySchemaStitchOnError | boolean     | false    | n/a               | if set, aqueduct will attempt to retry introspecting the endpoint after a failure                                     | n/a                               |
+| retryTimeout             | number      | false    | n/a               | number of ms to wait before attempting to retry                                                                       | n/a                               |
+| retryAttempts            | number      | false    | 5                 | number of attempts to try before failing                                                                              | n/a                               |
 
-# Aqueduct port (defaults to 4000, can be overriden with AQUEDUCT_PORT)
-port: 4000
+### endpoint configuration
 
-# Start Aqueduct after n milliseconds (disabled by default, can be overriden with AQUEDUCT_LAUNCH_DELAY)
-launchDelay: 10000
+Endpoints are configured in a Map with the key acting as the endpoint name and endpoint-specific configuration options added in the value object. Available options are
 
-# Enable GraphQL Playground on graphql endpoint (also available at /graphql, can be overriden with AQUEDUCT_ENABLE_PLAYGROUND)
-enablePlayground: true
+| name                     | type     | required | default | description                                                                    |
+| ------------------------ | -------- | -------- | ------- | ------------------------------------------------------------------------------ |
+| endpoint                 | string   | true     | n/a     | The GraphQL service endpoint URL you want to stitch                            |
+| passHeaders              | string[] | false    | n/a     | Headers from the original request to reuse for future requests to this service |
+| retrySchemaStitchOnError | boolean  | false    | n/a     | Same as in aqueduct config                                                     |
+| retryTimeout             | number   | false    | n/a     | Same as in aqueduct config                                                     |
+| retryAttempts            | number   | false    | n/a     | Same as in aqueduct config                                                     |
 
-# Alternative route to graphql endpoint (defaults to /, can be overriden with AQUEDUCT_PATH)
-path: /rainbow
-
-# CORS options (all CORS requests will be accepted by default, see https://github.com/expressjs/cors#configuration-options)
-cors:
-  origin: 'https://example.com'
-
-# Preflight-specific settings (allow all requests by default, see https://github.com/expressjs/cors#configuration-options)
-preflightSettings:
-  origin: 'https://webapp.example.com'
-
-# Disable CORS preflight requests (allowed by default, override with AQUEDUCT_DISABLE_CORS_PREFLIGHT)
-disablePreflightRequests: true
-
-# Use JWT validation (secret can by overriden with AQUEDUCT_JWT_SECRET)
-jwtSecret: <JSON Web Token secret>
-
-# Example helmet configuration (see https://github.com/helmetjs/helmet for more details)
-helmet:
-  frameguard: false
-```
+> Note: Headers are only passed in the user requests, not for introspection use. If your target service requires authentication for introspecting the schema, this won't work unfortunately
 
 ## known bugs
 
