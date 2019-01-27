@@ -12,7 +12,7 @@ aqueduct is a scalable service for bundling, monitoring and securing GraphQL ser
 
 Generally speaking, you are able to deploy aqueduct in almost every setup you can imagine, whether it's through Docker Compose, Kubernetes or just bare-metal. In any scenario, you'd start by pulling the official Docker image from Docker Hub (`docker pull brunoscheufler/aqueduct:latest`).
 
-Whichever way you deploy aqueduct, the configuration is pretty straightforward and can be set using a simple config file mount to the container's config path (defaults to `/config/aqueduct.yaml`, can be changed using the `AQUEDUCT_CONFIG_PATH` environment variable).
+Whichever way you deploy aqueduct, the yaml-based configuration is pretty straightforward and can be set using a simple config file mount to the container's config path (defaults to `/config/aqueduct.yaml`, can be changed using the `AQUEDUCT_CONFIG_PATH` environment variable).
 
 Example config:
 
@@ -62,4 +62,4 @@ Endpoints are configured in a Map with the key acting as the endpoint name and e
 
 ## known bugs
 
-– Errors from stitched services might be displayed strangely, this behaviour originates from a known [bug](https://github.com/apollographql/graphql-tools/issues/743) in [graphql-tools](https://github.com/apollographql/graphql-tools)
+- Errors from stitched services might be displayed strangely, this behaviour originates from a known [bug](https://github.com/apollographql/graphql-tools/issues/743) in [graphql-tools](https://github.com/apollographql/graphql-tools)
