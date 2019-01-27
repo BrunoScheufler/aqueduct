@@ -6,12 +6,12 @@ import helmet from 'helmet';
 import cors from 'cors';
 
 import {
-	createRemoteSchema,
-	IContext,
-	isDev,
-	handleError,
-	registerErrorHandlers,
-	wait
+  createRemoteSchema,
+  IContext,
+  isDev,
+  handleError,
+  registerErrorHandlers,
+  wait
 } from './util';
 import { getConfig } from './config';
 
@@ -19,80 +19,82 @@ registerErrorHandlers();
 const config = getConfig();
 
 (async () => {
-	const app = express();
+  if (!config.endpoints) {
+    throw new Error('Missing endpoint list');
+  }
 
-	// Configure helmet
-	const helmetOptions = config.helmet;
-	app.use(helmet(helmetOptions));
+  const app = express();
 
-	// Add JWT validation
-	const jwtSecret = process.env.AQUEDUCT_JWT_SECRET || config.jwtSecret;
-	if (jwtSecret) {
-		app.use(jwt({ secret: jwtSecret }));
-	}
+  // Configure helmet
+  const helmetOptions = config.helmet;
+  app.use(helmet(helmetOptions));
 
-	// Allow preflight requests unless explicitly disabled
-	const disablePreflight =
-		config.disablePreflightRequests === true ||
-		process.env.AQUEDUCT_DISABLE_CORS_PREFLIGHT === 'true';
+  // Add JWT validation
+  const jwtSecret = process.env.AQUEDUCT_JWT_SECRET || config.jwtSecret;
+  if (jwtSecret) {
+    app.use(jwt({ secret: jwtSecret }));
+  }
 
-	// Handle preflight requests
-	if (!disablePreflight) {
-		const preflightSettings = config.preflightSettings || { origin: '*' };
-		app.options('*', cors(preflightSettings));
-	}
+  // Allow preflight requests unless explicitly disabled
+  const disablePreflight =
+    config.disablePreflightRequests === true ||
+    process.env.AQUEDUCT_DISABLE_CORS_PREFLIGHT === 'true';
 
-	// Handle launch delay
-	const launchDelay =
-		parseInt(process.env.AQUEDUCT_LAUNCH_DELAY!) || config.launchDelay;
-	if (!isNaN(launchDelay)) {
-		await wait(launchDelay);
-	}
+  // Handle preflight requests
+  if (!disablePreflight) {
+    const preflightSettings = config.preflightSettings || { origin: '*' };
+    app.options('*', cors(preflightSettings));
+  }
 
-	try {
-		// retrieve endpoints from config and stitch together remote schemas
-		const endpoints = [...config.endpoints];
-		const schema = mergeSchemas({
-			schemas: await Promise.all(
-				endpoints.map(e => createRemoteSchema(e))
-			)
-		});
+  // Handle launch delay
+  const launchDelay =
+    parseInt(process.env.AQUEDUCT_LAUNCH_DELAY!) || config.launchDelay;
+  if (typeof launchDelay !== 'undefined' && !isNaN(launchDelay)) {
+    await wait(launchDelay);
+  }
 
-		// retrieve Apollo Engine api key
-		const engineApiKey =
-			process.env.AQUEDUCT_ENGINE_KEY || config.engineApiKey;
+  try {
+    // retrieve endpoints from config and stitch together remote schemas
+    const endpoints = [...config.endpoints];
+    const schema = mergeSchemas({
+      schemas: await Promise.all(endpoints.map(e => createRemoteSchema(e)))
+    });
 
-		// toggle graphql-playground
-		const enablePlayground =
-			isDev ||
-			process.env.AQUEDUCT_ENABLE_PLAYGROUND === 'true' ||
-			config.enablePlayground;
+    // retrieve Apollo Engine api key
+    const engineApiKey = process.env.AQUEDUCT_ENGINE_KEY || config.engineApiKey;
 
-		// create and launch server
-		const server = new ApolloServer({
-			schema,
-			cacheControl: true,
-			context: ({ req, res }: IContext) => ({ req, res }),
-			debug: isDev,
-			playground: enablePlayground,
-			tracing: true,
-			engine: engineApiKey ? { apiKey: engineApiKey } : false
-		});
+    // toggle graphql-playground
+    const enablePlayground =
+      isDev ||
+      process.env.AQUEDUCT_ENABLE_PLAYGROUND === 'true' ||
+      config.enablePlayground;
 
-		// Configure and set defaults for cors middleware and graphql endpoint
-		const corsOptions = config.cors || { origin: '*' };
-		const path = process.env.AQUEDUCT_PATH || config.path || '/';
+    // create and launch server
+    const server = new ApolloServer({
+      schema,
+      cacheControl: true,
+      context: ({ req, res }: IContext) => ({ req, res }),
+      debug: isDev,
+      playground: isDev || enablePlayground,
+      tracing: true,
+      engine: engineApiKey ? { apiKey: engineApiKey } : false,
+      introspection: isDev || enablePlayground
+    });
 
-		server.applyMiddleware({ app, cors: corsOptions, path });
+    // Configure and set defaults for cors middleware and graphql endpoint
+    const corsOptions = config.cors || { origin: '*' };
+    const path = process.env.AQUEDUCT_PATH || config.path || '/';
 
-		const serverPort =
-			parseInt(process.env.AQUEDUCT_PORT!) || config.port || 4000;
+    server.applyMiddleware({ app, cors: corsOptions, path });
 
-		const address = `http://localhost:${serverPort}${path || ''}`;
-		app.listen(serverPort, () =>
-			console.log(`Aqueduct server is running at ${address}`)
-		);
-	} catch (err) {
-		handleError(err);
-	}
+    const serverPort =
+      parseInt(process.env.AQUEDUCT_PORT!) || config.port || 4000;
+
+    const address = `http://localhost:${serverPort}${path || ''}`;
+    app.listen(serverPort, () =>
+      console.log(`Aqueduct server is running at ${address}`)
+    );
+  } catch (err) {
+    handleError(err);
+  }
 })();

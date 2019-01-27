@@ -4,7 +4,7 @@
 
 ## description
 
-aqueduct is a scalable service for bundling, monitoring and securing GraphQL services, functioning as a gateway. While it's admittedly minimal currently, aqueduct will get integrations for logging, metrics and more in the near future, to be used in large, distributed setups.
+aqueduct is a scalable service for bundling, monitoring and securing GraphQL services by utilizing remote schema-stitching, functioning as a gateway. While it's admittedly minimal currently, aqueduct will get integrations for logging, metrics and more in the near future, to be used in large, distributed setups.
 
 ## getting started
 
@@ -19,7 +19,7 @@ Example config:
 ```yaml
 # Put your endpoints to be schema-stitched below
 endpoints:
-    - https://api.graphcms.com/simple/v1/swapi
+  - https://api.graphcms.com/simple/v1/swapi
 ```
 
 Full config reference (with example values):
@@ -27,7 +27,7 @@ Full config reference (with example values):
 ```yaml
 # Has to be a list of absolute URLs, including a protocol (http, etc.) (somehow required)
 endpoints:
-    - http://sample-service
+  - http://sample-service
 
 # API Key for Apollo Engine metrics (optional, can be overriden with AQUEDUCT_ENGINE_KEY)
 engineApiKey: <Apollo Engine API Key>
@@ -46,11 +46,11 @@ path: /rainbow
 
 # CORS options (all CORS requests will be accepted by default, see https://github.com/expressjs/cors#configuration-options)
 cors:
-    origin: 'https://example.com'
+  origin: 'https://example.com'
 
 # Preflight-specific settings (allow all requests by default, see https://github.com/expressjs/cors#configuration-options)
 preflightSettings:
-    origin: 'https://webapp.example.com'
+  origin: 'https://webapp.example.com'
 
 # Disable CORS preflight requests (allowed by default, override with AQUEDUCT_DISABLE_CORS_PREFLIGHT)
 disablePreflightRequests: true
@@ -60,5 +60,9 @@ jwtSecret: <JSON Web Token secret>
 
 # Example helmet configuration (see https://github.com/helmetjs/helmet for more details)
 helmet:
-    frameguard: false
+  frameguard: false
 ```
+
+## known bugs
+
+– Errors from stitched services might be displayed strangely, this behaviour originates from a known [bug](https://github.com/apollographql/graphql-tools/issues/743) in [graphql-tools](https://github.com/apollographql/graphql-tools)

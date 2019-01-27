@@ -1,15 +1,15 @@
 {
-	"compilerOptions": {
-		"target": "esnext",
-		"module": "commonjs",
-		"declaration": true,
-		"declarationMap": true,
-		"sourceMap": true,
-		"outDir": "./build",
-		"rootDir": "./src",
-		"strict": true,
-		"moduleResolution": "node",
-		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true
-	}
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./build",
+    "rootDir": "./src",
+    "strict": true,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  }
 }
