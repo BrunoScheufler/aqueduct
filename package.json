@@ -9,7 +9,7 @@
   "private": true,
   "dependencies": {
     "@types/graphql": "14.0.5",
-    "@types/node-fetch": "2.1.4",
+    "@types/node-fetch": "2.3.5",
     "apollo-link": "1.2.6",
     "apollo-link-context": "1.0.12",
     "apollo-link-http": "1.5.9",
