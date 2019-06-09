@@ -30,7 +30,7 @@
     "@types/express-jwt": "0.0.40",
     "@types/fs-extra": "5.0.4",
     "@types/helmet": "0.0.42",
-    "@types/js-yaml": "3.12.0",
+    "@types/js-yaml": "3.12.1",
     "@types/node": "10.12.18",
     "ts-node-dev": "1.0.0-pre.32",
     "tslint": "5.12.1",
