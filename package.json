@@ -34,7 +34,7 @@
     "@types/node": "10.12.18",
     "ts-node-dev": "1.0.0-pre.32",
     "tslint": "5.12.1",
-    "typescript": "3.2.4"
+    "typescript": "3.5.1"
   },
   "scripts": {
     "build": "tsc --project .",
