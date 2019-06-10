@@ -22,7 +22,7 @@
     "graphql-tools": "3.1.1",
     "helmet": "3.15.0",
     "isomorphic-unfetch": "2.1.1",
-    "js-yaml": "^3.12.0"
+    "js-yaml": "3.13.1"
   },
   "devDependencies": {
     "@types/cors": "2.8.4",
@@ -32,9 +32,9 @@
     "@types/helmet": "0.0.42",
     "@types/js-yaml": "3.12.0",
     "@types/node": "10.12.18",
-    "prettier": "^1.18.2",
-    "semantic-release": "^15.13.12",
-    "semantic-release-docker": "^2.2.0",
+    "prettier": "1.18.2",
+    "semantic-release": "15.13.12",
+    "semantic-release-docker": "2.2.0",
     "ts-node-dev": "1.0.0-pre.32",
     "tslint": "5.12.1",
     "typescript": "3.2.4"
