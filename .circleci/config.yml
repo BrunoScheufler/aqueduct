@@ -34,6 +34,8 @@ jobs:
       - run:
           name: test
           command: yarn test
+      # set up docker for building and publishing image
+      - setup_remote_docker
       # release
       - run:
           name: release

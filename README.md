@@ -1,5 +1,7 @@
 # aqueduct
 
+[![CircleCI](https://circleci.com/gh/BrunoScheufler/aqueduct.svg?style=svg)](https://circleci.com/gh/BrunoScheufler/aqueduct)
+
 > A cloud-native GraphQL-powered gateway service for the infrastructure of the future!
 
 ## description
