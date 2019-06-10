@@ -1,6 +1,6 @@
 {
   "name": "aqueduct",
-  "version": "1.2.0",
+  "version": "0.0.0-development",
   "description": "A cloud-native GraphQL-powered gateway service",
   "main": "build/index.js",
   "repository": "https://github.com/BrunoScheufler/aqueduct",
@@ -32,19 +32,34 @@
     "@types/helmet": "0.0.42",
     "@types/js-yaml": "3.12.0",
     "@types/node": "10.12.18",
+    "prettier": "^1.18.2",
+    "semantic-release": "^15.13.12",
+    "semantic-release-docker": "^2.2.0",
     "ts-node-dev": "1.0.0-pre.32",
     "tslint": "5.12.1",
     "typescript": "3.2.4"
   },
   "scripts": {
     "build": "tsc --project .",
-    "test": "yarn run build && yarn run lint",
-    "lint": "tslint --project .",
-    "start": "node ./build/index.js",
-    "dev": "ts-node-dev ./src/index.ts",
-    "docker:build": "docker build -t brunoscheufler/aqueduct:1.2.0 .",
-    "docker:tag": "docker tag brunoscheufler/aqueduct:1.2.0 brunoscheufler/aqueduct:latest",
-    "docker:publish": "docker push brunoscheufler/aqueduct:1.2.0 && docker push brunoscheufler/aqueduct:latest",
-    "docker": "yarn docker:build && yarn docker:tag && yarn docker:publish"
+    "lint:style": "prettier --check src/**/*.ts",
+    "lint:code": "tslint --project .",
+    "lint": "yarn lint:style && yarn lint:code",
+    "watch": "tsc --project . --watch",
+    "prepare": "yarn build && yarn lint",
+    "test": "echo \"Currently, there are no tests, this placeholder was added so the current step won't fail.\"",
+    "semantic-release": "semantic-release"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      [
+        "semantic-release-docker",
+        {
+          "name": "brunoscheufler/aqueduct"
+        }
+      ],
+      "@semantic-release/github"
+    ]
   }
 }
