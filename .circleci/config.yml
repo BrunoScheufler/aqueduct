@@ -36,6 +36,10 @@ jobs:
           command: yarn test
       # set up docker for building and publishing image
       - setup_remote_docker
+      # build image
+      - run:
+          name: build-docker-image
+          command: docker build -t brunoscheufler/aqueduct .
       # release
       - run:
           name: release
