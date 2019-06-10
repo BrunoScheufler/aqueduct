@@ -30,7 +30,7 @@
     "@types/express-jwt": "0.0.40",
     "@types/fs-extra": "5.1.0",
     "@types/helmet": "0.0.43",
-    "@types/js-yaml": "3.12.0",
+    "@types/js-yaml": "3.12.1",
     "@types/node": "10.12.18",
     "prettier": "1.18.2",
     "semantic-release": "15.13.12",
