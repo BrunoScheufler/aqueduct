@@ -16,14 +16,14 @@
     "express": "4.17.1",
     "express-jwt": "5.3.1",
     "fs-extra": "7.0.1",
-    "graphql": "14.1.1",
+    "graphql": "14.3.1",
     "graphql-tools": "3.1.1",
     "helmet": "3.15.0",
     "isomorphic-unfetch": "2.1.1",
     "js-yaml": "3.13.1"
   },
   "devDependencies": {
-    "@types/graphql": "14.0.5",
+    "@types/graphql": "14.2.0",
     "@types/node-fetch": "2.3.5",
     "@types/cors": "2.8.4",
     "@types/express": "4.17.0",
