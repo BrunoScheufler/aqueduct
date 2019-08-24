@@ -76,7 +76,9 @@ export const handleError = (err: Error) => {
 
 export const registerErrorHandlers = () => {
   process.on('uncaughtException', handleError);
-  process.on('unhandledRejection', handleError);
+  process.on('unhandledRejection', reason =>
+    handleError(new Error(`Unhandled rejection: ${reason}`))
+  );
   process.on('SIGTERM', () => handleError(new Error('Detected SIGTERM, bye!')));
   process.on('SIGINT', () => handleError(new Error('Detected SIGINT, bye!')));
 };
