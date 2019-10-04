@@ -11,7 +11,7 @@
     "apollo-link": "1.2.13",
     "apollo-link-context": "1.0.19",
     "apollo-link-http": "1.5.16",
-    "apollo-server-express": "2.9.4",
+    "apollo-server-express": "2.9.5",
     "cors": "2.8.5",
     "express": "4.17.1",
     "express-jwt": "5.3.1",
