@@ -32,7 +32,7 @@
     "@types/helmet": "0.0.45",
     "@types/js-yaml": "3.12.1",
     "@types/node": "10.17.5",
-    "prettier": "1.18.2",
+    "prettier": "1.19.0",
     "semantic-release": "15.13.30",
     "semantic-release-docker": "2.2.0",
     "ts-node-dev": "1.0.0-pre.44",
