@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/cors": "2.8.6",
     "@types/express-jwt": "0.0.42",
-    "@types/fs-extra": "8.0.1",
+    "@types/fs-extra": "8.1.0",
     "@types/helmet": "0.0.45",
     "@types/js-yaml": "3.12.2",
     "@types/node": "13.7.1",
