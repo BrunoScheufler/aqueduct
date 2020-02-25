@@ -29,7 +29,7 @@
     "@types/helmet": "0.0.45",
     "@types/js-yaml": "3.12.2",
     "@types/node": "13.7.4",
-    "@types/node-fetch": "2.5.4",
+    "@types/node-fetch": "2.5.5",
     "prettier": "1.19.1",
     "semantic-release": "16.0.4",
     "semantic-release-docker": "2.2.0",
