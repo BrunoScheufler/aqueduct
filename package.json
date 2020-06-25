@@ -27,7 +27,7 @@
     "@types/express-jwt": "0.0.42",
     "@types/fs-extra": "8.1.1",
     "@types/helmet": "0.0.47",
-    "@types/js-yaml": "3.12.4",
+    "@types/js-yaml": "3.12.5",
     "@types/node": "13.13.12",
     "@types/node-fetch": "2.5.7",
     "prettier": "1.19.1",
