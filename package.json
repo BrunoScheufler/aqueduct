@@ -23,7 +23,7 @@
     "js-yaml": "3.14.0"
   },
   "devDependencies": {
-    "@types/cors": "2.8.6",
+    "@types/cors": "2.8.7",
     "@types/express-jwt": "0.0.42",
     "@types/fs-extra": "8.1.1",
     "@types/helmet": "0.0.47",
